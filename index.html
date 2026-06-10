@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navorka FA — Règlement Entreprises</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --green: #30ff88;
+    --green-soft: rgba(48, 255, 136, .18);
+    --green-line: rgba(48, 255, 136, .38);
+    --green-glow: rgba(48, 255, 136, .32);
+    --black: #030604;
+    --dark: rgba(6, 12, 9, .92);
+    --dark2: rgba(9, 19, 14, .88);
+    --glass: rgba(8, 18, 13, .72);
+    --text: #d8eadf;
+    --text-dim: #8da898;
+    --white: #f4fff8;
+    --radius: 12px;
+    --shadow: 0 22px 75px rgba(0, 0, 0, .58);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: var(--black); }
+
+  body {
+    min-height: 100vh;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    background:
+      radial-gradient(circle at 18% 9%, rgba(48, 255, 136, .14), transparent 28%),
+      radial-gradient(circle at 82% 16%, rgba(48, 255, 136, .08), transparent 26%),
+      linear-gradient(135deg, #020403 0%, #07110c 45%, #030604 100%);
+  }
+
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  body::before {
+    opacity: .42;
+    background:
+      linear-gradient(rgba(48, 255, 136, .035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(48, 255, 136, .035) 1px, transparent 1px),
+      repeating-linear-gradient(180deg, rgba(255, 255, 255, .028), rgba(255, 255, 255, .028) 1px, transparent 1px, transparent 5px);
+    background-size: 44px 44px, 44px 44px, 100% 6px;
+    mask-image: radial-gradient(circle at center, #000 0 74%, transparent 100%);
+  }
+
+  body::after {
+    opacity: .12;
+    mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.75'/%3E%3C/svg%3E");
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px clamp(18px, 4vw, 56px);
+    border-bottom: 1px solid rgba(48, 255, 136, .16);
+    background: linear-gradient(180deg, rgba(2, 5, 3, .9), rgba(2, 5, 3, .55));
+    backdrop-filter: blur(16px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, .42);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.35rem;
+    letter-spacing: .1em;
+    text-shadow: 0 0 18px var(--green-glow);
+  }
+
+  .nav-brand-logo {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px var(--green-glow));
+  }
+
+  .nav-tag {
+    color: var(--green);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+    perspective: 1200px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: min(64vw, 760px);
+    aspect-ratio: 1;
+    border: 1px solid rgba(48, 255, 136, .18);
+    border-radius: 50%;
+    box-shadow: inset 0 0 70px rgba(48, 255, 136, .08), 0 0 90px rgba(48, 255, 136, .09);
+    transform: rotateX(70deg) rotateZ(-12deg);
+    animation: orbit-ring 12s linear infinite;
+    z-index: -1;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: min(40vw, 520px);
+    aspect-ratio: 1;
+    border: 1px solid rgba(48, 255, 136, .25);
+    border-radius: 50%;
+    transform: rotateX(65deg) rotateY(32deg);
+    animation: orbit-ring-reverse 16s linear infinite;
+    z-index: -1;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(.24) saturate(.55) contrast(1.12) hue-rotate(72deg);
+    transform: scale(1.04);
+    animation: slow-zoom 22s ease-in-out infinite alternate;
+    z-index: -3;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(3, 6, 4, .48), transparent 28%, rgba(3, 6, 4, .94) 100%),
+      radial-gradient(circle at center, rgba(48, 255, 136, .14), transparent 38%);
+    z-index: -2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(860px, calc(100% - 32px));
+    padding: clamp(28px, 5vw, 58px);
+    text-align: center;
+    border: 1px solid rgba(48, 255, 136, .28);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, .075), transparent 30%),
+      linear-gradient(180deg, rgba(6, 13, 9, .78), rgba(4, 9, 6, .56));
+    box-shadow: var(--shadow), inset 0 0 0 1px rgba(255, 255, 255, .04), 0 0 55px rgba(48, 255, 136, .09);
+    backdrop-filter: blur(16px);
+    transform-style: preserve-3d;
+    animation: hud-float 7s ease-in-out infinite;
+  }
+
+  .hero-content::before,
+  .article::before,
+  .intro-text::before,
+  .server-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, transparent, rgba(48, 255, 136, .14), transparent),
+      repeating-linear-gradient(180deg, rgba(255, 255, 255, .025), rgba(255, 255, 255, .025) 1px, transparent 1px, transparent 4px);
+    opacity: .46;
+  }
+
+  .logo-container {
+    display: inline-grid;
+    place-items: center;
+    width: clamp(86px, 13vw, 130px);
+    height: clamp(86px, 13vw, 130px);
+    margin-bottom: 28px;
+    border: 1px solid rgba(48, 255, 136, .34);
+    border-radius: 18px;
+    background: rgba(48, 255, 136, .055);
+    box-shadow: 0 0 35px rgba(48, 255, 136, .18);
+    transform: translateZ(42px);
+  }
+
+  .logo-img {
+    max-width: 82%;
+    max-height: 82%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 18px rgba(48, 255, 136, .35));
+  }
+
+  .hero-label,
+  .label {
+    color: var(--green);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    margin-top: 12px;
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 12rem);
+    line-height: .82;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    text-shadow: 0 0 38px rgba(48, 255, 136, .22), 0 8px 0 rgba(0, 0, 0, .45);
+    transform: translateZ(62px);
+  }
+
+  .hero-title span,
+  .footer-brand span,
+  .highlight {
+    color: var(--green);
+    text-shadow: 0 0 18px var(--green-glow);
+  }
+
+  .hero-sub {
+    margin-top: 16px;
+    color: var(--text);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.25rem, 3vw, 2.2rem);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .hero-line {
+    width: min(260px, 55%);
+    height: 2px;
+    margin: 26px auto 0;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    box-shadow: 0 0 22px var(--green-glow);
+  }
+
+  .scroll-down {
+    position: absolute;
+    bottom: 26px;
+    left: 50%;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    color: var(--text-dim);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    transform: translateX(-50%);
+  }
+
+  .scroll-arrow {
+    width: 18px;
+    height: 18px;
+    border-right: 2px solid var(--green);
+    border-bottom: 2px solid var(--green);
+    transform: rotate(45deg);
+    animation: arrow-bounce 1.4s ease-in-out infinite;
+  }
+
+  .intro,
+  .reglement-section {
+    position: relative;
+    width: min(1160px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: clamp(80px, 10vw, 130px) 0;
+  }
+
+  .intro-text {
+    position: relative;
+    max-width: 850px;
+    padding: clamp(24px, 5vw, 46px);
+    border: 1px solid rgba(48, 255, 136, .22);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--dark2), rgba(4, 10, 7, .7));
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .red-line {
+    width: 86px;
+    height: 3px;
+    margin-bottom: 24px;
+    background: var(--green);
+    box-shadow: 0 0 22px var(--green-glow);
+  }
+
+  h2 {
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.9rem, 7vw, 6.6rem);
+    line-height: .88;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+
+  h2 em {
+    color: var(--green);
+    font-style: normal;
+  }
+
+  .intro-text p {
+    position: relative;
+    margin-top: 22px;
+    color: var(--text);
+    font-size: 1.08rem;
+    line-height: 1.8;
+  }
+
+  .server-photo {
+    position: relative;
+    width: min(1160px, calc(100% - 32px));
+    height: clamp(280px, 48vw, 520px);
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid rgba(48, 255, 136, .22);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transform-style: preserve-3d;
+  }
+
+  .server-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(.48) saturate(.75) hue-rotate(55deg);
+    transform: scale(1.04);
+    transition: transform .7s ease, filter .7s ease;
+  }
+
+  .server-photo:hover img {
+    transform: scale(1.09) rotate(.6deg);
+    filter: brightness(.6) saturate(.9) hue-rotate(55deg);
+  }
+
+  .server-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(3, 6, 4, .82), transparent 55%, rgba(3, 6, 4, .75));
+  }
+
+  .server-photo-text {
+    position: absolute;
+    left: clamp(22px, 4vw, 48px);
+    bottom: clamp(22px, 4vw, 42px);
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    letter-spacing: .05em;
+    text-shadow: 0 0 24px rgba(48, 255, 136, .2);
+  }
+
+  .section-header {
+    margin-bottom: 46px;
+    text-align: center;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .divider-line {
+    width: min(140px, 28vw);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--green));
+  }
+
+  .divider-line:last-child {
+    background: linear-gradient(90deg, var(--green), transparent);
+  }
+
+  .divider-diamond {
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--green);
+    transform: rotate(45deg);
+    box-shadow: 0 0 18px var(--green-glow);
+  }
+
+  #articles {
+    display: grid;
+    gap: 16px;
+  }
+
+  .article {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(48, 255, 136, .18);
+    border-radius: var(--radius);
+    background: linear-gradient(145deg, rgba(255,255,255,.055), transparent 22%), linear-gradient(180deg, var(--dark), var(--glass));
+    box-shadow: 0 18px 60px rgba(0, 0, 0, .34);
+    transform-style: preserve-3d;
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+
+  .article:hover {
+    border-color: rgba(48, 255, 136, .44);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, .45), 0 0 36px rgba(48, 255, 136, .08);
+    transform: translateY(-5px) rotateX(1.4deg);
+  }
+
+  .article-header {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 18px;
+    padding: 22px clamp(18px, 3vw, 30px);
+    cursor: pointer;
+  }
+
+  .article-number {
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(48, 255, 136, .42);
+    border-radius: 10px;
+    color: #031009;
+    background: linear-gradient(135deg, var(--green), #9effc6);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.65rem;
+    box-shadow: 0 0 26px rgba(48, 255, 136, .2);
+  }
+
+  .article-title {
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .article-toggle {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(48, 255, 136, .28);
+    border-radius: 9px;
+    color: var(--green);
+    font-size: 1.45rem;
+    font-weight: 700;
+    transition: transform .25s ease, background .25s ease;
+  }
+
+  .article.open .article-toggle {
+    background: rgba(48, 255, 136, .12);
+    transform: rotate(45deg);
+  }
+
+  .article-body {
+    position: relative;
+    z-index: 1;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .45s ease;
+  }
+
+  .article.open .article-body {
+    max-height: 900px;
+  }
+
+  .article-content {
+    padding: 0 clamp(18px, 3vw, 30px) 26px calc(clamp(18px, 3vw, 30px) + 72px);
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.78;
+  }
+
+  .article-content p + p,
+  .article-content ul + p,
+  .article-content p + ul,
+  .article-content .warning + p {
+    margin-top: 14px;
+  }
+
+  .article-content ul {
+    padding-left: 18px;
+  }
+
+  .article-content li {
+    margin: 8px 0;
+  }
+
+  .warning {
+    margin-top: 16px;
+    padding: 15px 16px;
+    border-left: 3px solid var(--green);
+    border-radius: 8px;
+    color: var(--white);
+    background: rgba(48, 255, 136, .08);
+    box-shadow: inset 0 0 24px rgba(48, 255, 136, .04);
+  }
+
+  footer {
+    position: relative;
+    padding: 54px 18px 64px;
+    border-top: 1px solid rgba(48, 255, 136, .16);
+    text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(2, 5, 3, .72));
+  }
+
+  .footer-brand {
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 7vw, 5.8rem);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .footer-info {
+    display: grid;
+    gap: 6px;
+    margin-top: 16px;
+    color: var(--text-dim);
+    font-size: .96rem;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes slow-zoom {
+    from { transform: scale(1.04); }
+    to { transform: scale(1.12); }
+  }
+
+  @keyframes hud-float {
+    0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+    50% { transform: translateY(-12px) rotateX(2deg) rotateY(-1.2deg); }
+  }
+
+  @keyframes orbit-ring {
+    to { transform: rotateX(70deg) rotateZ(348deg); }
+  }
+
+  @keyframes orbit-ring-reverse {
+    to { transform: rotateX(65deg) rotateY(32deg) rotateZ(-360deg); }
+  }
+
+  @keyframes arrow-bounce {
+    0%, 100% { transform: translateY(0) rotate(45deg); opacity: .55; }
+    50% { transform: translateY(8px) rotate(45deg); opacity: 1; }
+  }
+
+  @media (max-width: 760px) {
+    nav {
+      padding: 14px 16px;
+    }
+
+    .nav-tag {
+      display: none;
+    }
+
+    .hero {
+      min-height: 92vh;
+      padding-top: 72px;
+    }
+
+    .hero-content {
+      padding: 24px 16px;
+    }
+
+    .intro,
+    .reglement-section,
+    .server-photo {
+      width: min(100% - 20px, 1160px);
+    }
+
+    .article-header {
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+    }
+
+    .article-toggle {
+      grid-column: 2;
+      justify-self: start;
+      width: 34px;
+      height: 34px;
+    }
+
+    .article-content {
+      padding: 0 16px 22px 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <img class="nav-brand-logo" src="navorka_legal.png" alt="N">
+    NAVORKA FA
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="logo-container">
+      <img class="logo-img"
+        src="navorka_legal.png"
+        alt="Navorka FA Logo">
+    </div>
+    <p class="hero-label">Serveur GTA RP — Document Officiel</p>
+    <h1 class="hero-title">
+      Navorka
+      <span>FA</span>
+    </h1>
+    <p class="hero-sub">Règlement des Entreprises</p>
+    <div class="hero-line"></div>
+  </div>
+  <div class="scroll-down">
+    <span>Défiler</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="intro-text reveal">
+    <div class="red-line"></div>
+    <h2>Un cadre <em>sérieux</em> pour un RP de qualité</h2>
+    <p>Les entreprises officielles de Navorka FA sont le pilier de l'économie du serveur. Ce règlement définit les règles auxquelles tout patron, co-patron et employé doit se conformer.</p>
+    <p>Le non-respect de ces règles peut entraîner des sanctions RP et HRP pouvant aller jusqu'à la fermeture de l'entreprise.</p>
+  </div>
+</section>
+
+<div class="server-photo">
+  <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80" alt="Serveur">
+  <div class="server-photo-overlay"></div>
+  <div class="server-photo-text">
+    <p>Navorka FA — Serveur GTA RP</p>
+  </div>
+</div>
+
+<section class="reglement-section">
+  <div class="section-header reveal">
+    <p class="label">Document officiel</p>
+    <h2>Règlement Entreprises</h2>
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+  </div>
+
+  <div id="articles"></div>
+</section>
+
+<footer>
+  <div class="footer-brand">Navorka <span>FA</span></div>
+  <div class="footer-info">
+    <p>Règlement Entreprises — Version en vigueur</p>
+    <p>Serveur GTA RP Navorka FA</p>
+    <p>Tout manquement peut entraîner des sanctions</p>
+  </div>
+</footer>
+
+<script>
+const articles = [
+  {
+    num: "01",
+    title: "Respect des réglementations RP",
+    content: `<p>Toute entreprise doit respecter le <span class="highlight">Code des taxes</span>, le <span class="highlight">Code du travail</span> ainsi que le <span class="highlight">Code des entreprises</span> mis en place par le Gouvernement RP.</p>`
+  },
+  {
+    num: "02",
+    title: "Utilisation de Discord",
+    content: `<p>L'utilisation de Discord pour des interactions RP est interdite, sauf dans les cas suivants :</p>
+    <ul>
+      <li>Réception des candidatures</li>
+      <li>Activités gouvernementales (impôts, création/reprise d'entreprise, rendez-vous spécifiques)</li>
+      <li>Affichage du règlement, des catalogues ou des cartes</li>
+      <li>Discussions et annonces internes entre employés</li>
+    </ul>
+    <div class="warning">Toute autre interaction (commandes, rendez-vous, ventes, négociations, etc.) doit être réalisée directement en RP.</div>`
+  },
+  {
+    num: "03",
+    title: "Gestion des fonds d'entreprise",
+    content: `<p>L'argent de l'entreprise ne constitue pas un usage personnel. Toute dépense doit être justifiée par une activité liée à l'entreprise.</p>
+    <div class="warning">L'utilisation des fonds professionnels à des fins personnelles est <span class="highlight">strictement interdite</span>.</div>`
+  },
+  {
+    num: "04",
+    title: "Cession, wipe et mort RP",
+    content: `<p>Toute cession d'entreprise doit être signalée au Gouvernement RP.</p>
+    <p>En cas de wipe ou de mort RP, le Gouvernement doit également être informé.</p>`
+  },
+  {
+    num: "05",
+    title: "Véhicules d'entreprise",
+    content: `<p>Il est interdit de vendre des véhicules d'entreprise à des particuliers.</p>
+    <div class="warning">Les véhicules de l'entreprise doivent être utilisés <span class="highlight">exclusivement</span> dans le cadre des activités professionnelles de celle-ci.</div>`
+  },
+  {
+    num: "06",
+    title: "Multi-personnages",
+    content: `<ul>
+      <li>Il est interdit d'avoir plusieurs de ses personnages dans une même entreprise.</li>
+      <li>Il est interdit d'occuper un poste de direction (patron ou co-patron) dans plusieurs entreprises simultanément, tous personnages confondus.</li>
+    </ul>`
+  },
+  {
+    num: "07",
+    title: "Vente personnelle à son entreprise",
+    content: `<div class="warning">Les patrons et co-patrons ne sont <span class="highlight">pas autorisés</span> à vendre leurs biens personnels à leur propre entreprise.</div>`
+  },
+  {
+    num: "08",
+    title: "Limitation des emplois",
+    content: `<p>Un joueur peut être employé dans <span class="highlight">deux entreprises maximum</span>, uniquement si elles appartiennent à des secteurs différents.</p>
+    <div class="warning">Exemple : Être employé simultanément chez Paradise et The Palace est interdit.</div>`
+  },
+  {
+    num: "09",
+    title: "Réintégration après wipe",
+    content: `<p>Lorsqu'un personnage de direction ou un haut gradé est wipe ou remplacé, il est interdit de réintégrer l'entreprise au même grade.</p>
+    <div class="warning">Toute réintégration doit obligatoirement se faire <span class="highlight">au grade le plus bas</span>.</div>`
+  },
+  {
+    num: "10",
+    title: "Prise de service",
+    content: `<p>Il est interdit de prendre son service uniquement pour :</p>
+    <ul>
+      <li>Effectuer une vente</li>
+      <li>Réaliser une réparation</li>
+      <li>Effectuer une action ponctuelle</li>
+    </ul>
+    <div class="warning">Avant de quitter immédiatement son service après l'action.</div>`
+  },
+  {
+    num: "11",
+    title: "Licenciements",
+    content: `<p>Les licenciements doivent rester <span class="highlight">cohérents et justifiés en RP</span>.</p>
+    <p>Toute raison HRP devra être validée au préalable par les gérants côté légal.</p>`
+  },
+  {
+    num: "12",
+    title: "Comportement et image du serveur",
+    content: `<p>Les entreprises officielles représentent l'image du serveur. Les PDG ainsi que leurs employés doivent adopter un <span class="highlight">comportement irréprochable</span> sur leur lieu de travail.</p>
+    <div class="warning">Tout comportement nuisible pourra entraîner des sanctions RP et HRP.</div>`
+  }
+];
+
+const container = document.getElementById('articles');
+
+articles.forEach((art, i) => {
+  const el = document.createElement('div');
+  el.className = 'article reveal';
+  el.innerHTML = `
+    <div class="article-header" onclick="toggleArticle(this)">
+      <div class="article-number">${art.num}</div>
+      <div class="article-title">${art.title}</div>
+      <div class="article-toggle">+</div>
+    </div>
+    <div class="article-body">
+      <div class="article-content">${art.content}</div>
+    </div>
+  `;
+  container.appendChild(el);
+});
+
+function toggleArticle(header) {
+  const article = header.parentElement;
+  article.classList.toggle('open');
+}
+
+// Reveal au scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05 });
+reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
